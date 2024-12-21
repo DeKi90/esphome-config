@@ -1,0 +1,24 @@
+udp:
+  binary_sensors:
+    ${switch_id}_switch
+
+binary_sensor:
+  - platform: template
+    id: ${switch_id}_switch
+    lambda: "return id(${switch_id}).state;"
+
+  - platform: udp
+    provider: ${sub_node}
+    id: ${switch_id}_state
+    on_press:
+      switch.turn_on: $switch_id
+    on_release:
+      switch.turn_off: $switch_id
+
+switch:
+  - platform: template
+    id: $switch_id
+    optimistic: true
+    
+    
+

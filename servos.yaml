@@ -1,0 +1,49 @@
+esphome:
+  name: switch1
+  
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Switch1 Fallback Hotspot"
+    password: "Pqp6zl88ITMP"
+
+captive_portal:
+    
+web_server:
+  port: 80
+  version: 3
+
+packages:
+    switch_1: !include
+      file: packages/servo_output.yaml
+      vars:
+        switch_id: turnout_1
+        switch_name: Weiche 1
+        pin: GPIO01
+    switch_2: !include
+      file: packages/servo_output.yaml
+      vars:
+        switch_id: turnout_2
+        switch_name: Weiche 2
+        pin: GPIO02
+        off_pos: "-1"
+

@@ -1,0 +1,30 @@
+substitutions:
+  off_pos: "-.5"
+  on_pos: ".5"
+  transition_length: 3s
+
+servo:
+  - id: ${switch_id}_servo
+    output: ${switch_id}_pwm
+    transition_length: $transition_length
+
+output:
+  - platform: ledc
+    id: ${switch_id}_pwm
+    pin: ${pin}
+    frequency: 50Hz
+
+switch:
+  - platform: template
+    id: ${switch_id}
+    name: ${switch_name}
+    optimistic: true
+    turn_on_action:
+      - servo.write:
+          id: ${switch_id}_servo
+          level: ${on_pos}
+    turn_off_action:
+      - servo.write:
+          id: ${switch_id}_servo
+          level: ${off_pos}
+

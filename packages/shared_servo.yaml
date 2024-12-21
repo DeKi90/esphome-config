@@ -1,0 +1,22 @@
+packages:
+  ${switch_name}: !include
+    file: ./servo_output.yaml
+    vars:
+      switch_name: $switch_name
+      switch_id: $switch_id
+      pin: $pin
+
+udp:
+  binary_sensors:
+    - ${switch_id}_state
+
+binary_sensor:
+  - platform: udp
+    provider: $main_node
+    id: $(switch_id)_switch
+    on_press:
+      switch.turn_on: $switch_id
+    on_release:
+      switch.turn_off: $switch_id
+
+
